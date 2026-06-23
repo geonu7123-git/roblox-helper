@@ -8,7 +8,7 @@ st.set_page_config(page_title="로블록스 끝말잇기 도우미", page_icon="
 st.title("📝 로블록스 끝말잇기 도우미")
 st.caption("단어 전체나 마지막 글자(예: '슘')만 입력해도 이어질 단어를 검색합니다.")
 
-# 💡 최적화 0: 한방 글자 방어 사전 (괄호 및 쉼표 문법 에러 완벽 수정)
+# 💡 최적화 0: 한방 글자 방어 사전
 CUSTOM_DICTIONARY = {
     "녘": [{"단어": "녘새발", "품사": "명사", "뜻": "해가 넘어가기 전에 우는 새"}, {"단어": "녘노을", "품사": "명사", "뜻": "해 질 녘에 붉게 물든 하늘"}],
     "늄": [{"단어": "늄바리", "품사": "명사", "뜻": "알루미늄으로 만든 밥그릇"}, {"단어": "늄라", "품사": "명사", "뜻": "인도 전통 타악기"}],
@@ -30,4 +30,14 @@ def get_words_via_web(target_letter):
     
     # 1. 커스텀 방어 단어 먼저 추가
     if target_letter in CUSTOM_DICTIONARY:
-        words.
+        words.extend(CUSTOM_DICTIONARY[target_letter])
+        
+    # 2. 네이버 API 검색 실행
+    url = f"https://ko.dict.naver.com/api3/koko/search?query={target_letter}*"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Referer": "https://ko.dict.naver.com/"
+    }
+    
+    try:
+        response =
